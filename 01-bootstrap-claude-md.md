@@ -10,6 +10,7 @@ Fill the template's `Project facts` placeholders from evidence, not guesswork:
 
 - Stack and versions — from the manifest and lockfile, plus any `.nvmrc` / `.tool-versions` / `Dockerfile` / CI config.
 - Build, run, test, lint commands — from the manifest's scripts, Makefile, or CI workflow. **Verify each one actually runs.** A command copied from a stale README that fails is worse than a placeholder.
+- Working setup — the integration branch that session worktrees start from. List the shared resources (databases, test databases, servers) that two sessions must not use at the same time. These fill the `Concurrent sessions` section. If only one session works at a time, say so and delete that section.
 - If a fact can't be determined, leave the placeholder in and list it as a question rather than inventing a plausible value.
 
 ## 3. Reconcile with the existing file — ask, don't overwrite
@@ -30,7 +31,7 @@ After I've resolved the conflicts: write the merged `CLAUDE.md`. If the existing
 
 ## 5. Wire the docs index
 
-Ensure `docs/README.md` exists (create a stub index if not) and that the root `CLAUDE.md` links it. If `docs/` is empty or missing, say so and offer to run the documentation bootstrap next — don't start it unasked.
+Ensure `docs/README.md` exists (create a stub index if not) and that the root `CLAUDE.md` links it. If `docs/` is empty or missing, say so and offer to run the documentation bootstrap next — don't start it unasked. After `02`, [03-bootstrap-plan.md](03-bootstrap-plan.md) sets up the plan, the ledger and the ruling register.
 
 ## 6. Report
 

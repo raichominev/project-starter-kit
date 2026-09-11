@@ -2,6 +2,8 @@ Document this existing web project into `docs/`, working bottom-up from the actu
 
 If the repo is large, go module by module rather than in one pass — finish and index each doc before starting the next.
 
+If the project is not a web application, adapt the docs below to its real structure, and say which ones you changed.
+
 ## 1. Environment — `docs/ENVIRONMENT.md`
 
 Language/runtime versions, package manager, framework(s), build tool, deploy target (container/serverless/VM/static), config sources and env var **names and purpose only — never values**, external services (DB, cache, queue, auth provider, third-party APIs). End with a local dev runbook: the exact commands to install, build, run and test.
@@ -30,13 +32,23 @@ Domain terms, entity names, status/enum codes, and business rules that are encod
 
 Where code is ambiguous, business logic undocumented, error handling unclear, or intent not inferable from source — write a numbered question. Never guess in the docs.
 
+This file is also the ruling register. A question keeps its number, and other docs cite it as `#N`. When the owner answers, record the date and the owner's own words. A superseded answer stays, with a pointer to the answer that replaces it.
+
 ## 8. Tests — `docs/TEST-COVERAGE.md`
 
 Inventory the existing tests and the framework/runner in use. Map coverage against the modules and flows from steps 2-5 and list what is uncovered. For each gap propose concrete cases: happy path, edge cases, error/failure modes. Rank gaps by risk. Then ask which to implement and write those tests — including a regression test for any bug you uncover while reading.
 
 ## 9. Index and wiring — `docs/README.md`
 
-One line per doc file with a short description. Link `docs/README.md` from the root `CLAUDE.md` so the index is reachable from the project's agent instructions.
+One line per doc file with a short description. Link `docs/README.md` from the root `CLAUDE.md` so the index is reachable from the project's agent instructions. When the project has more than about ten docs, also add a `What | Home` table to `CLAUDE.md` that maps each topic to its one home doc.
+
+## Optional: evidence folder — `research/` and `docs/RESEARCH-METHOD.md`
+
+Use this when the project is distilled from sources outside the repo: a legacy system, a database or a set of documents.
+
+- A script makes each extract in `research/`. Nobody edits an extract by hand.
+- `docs/RESEARCH-METHOD.md` gives, for each extract, the command that makes it again.
+- A doc that states a fact from a source cites the source object.
 
 ## Rules
 
@@ -44,3 +56,7 @@ One line per doc file with a short description. Link `docs/README.md` from the r
 - One topic, one home file — everywhere else links, never duplicates.
 - Docs chase code: a doc claim later contradicted by source gets fixed in that same session.
 - Report what you could not determine rather than filling the gap with a plausible guess.
+
+## Next
+
+Offer to run [03-bootstrap-plan.md](03-bootstrap-plan.md), and wait for an answer.
