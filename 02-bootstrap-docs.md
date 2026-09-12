@@ -19,6 +19,13 @@ is worse than no `API.md`, because the index then promises something the project
 create `DATA-MODEL.md` beside an existing `CONTENT-MODEL.md`, and do not rename a file the project's
 own links depend on — the one-home rule outranks this list's naming. Record the mapping in the index.
 
+**The mapping is not one-to-one.** A kit document may correspond to several project documents, to
+none, or to a section inside another file. Measured on one project: `CONCEPTS.md` fanned out to five
+files; architecture, API and modules were folded into a single 4,828-line file; and the ruling
+register existed as a *function* inside a plan, with no file of its own. Do not split what the
+project keeps together, do not merge what it keeps apart, and do not create a file for a function
+that already has a home. Record the mapping in the index.
+
 ## 1. Environment — `docs/ENVIRONMENT.md`
 
 Language/runtime versions, package manager, framework(s), build tool, deploy target (container/serverless/VM/static), config sources and env var **names and purpose only — never values**, external services (DB, cache, queue, auth provider, third-party APIs). End with a local dev runbook: the exact commands to install, build, run and test.
@@ -57,7 +64,7 @@ Inventory the existing tests and the framework/runner in use. Map coverage again
 
 ## 9. Index and wiring — `docs/README.md`
 
-One line per doc file with a short description. Link `docs/README.md` from the root `CLAUDE.md` so the index is reachable from the project's agent instructions. When the project has more than about ten docs, also add a `What | Home` table to `CLAUDE.md` that maps each topic to its one home doc.
+One line per doc file with a short description. **If the project already has an index under another name — `index.md`, `TOC.md`, a `doc-homes.tsv` — use it and do not rename it**: inbound links name it, and the one-home rule outranks this step's naming. Link that index from `CLAUDE.md` so it is reachable from the project's agent instructions. When the project has more than about ten docs, also add a `What | Home` table to `CLAUDE.md` that maps each topic to its one home doc.
 
 ## Optional: evidence folder — `research/` and `docs/RESEARCH-METHOD.md`
 

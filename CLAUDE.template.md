@@ -41,6 +41,7 @@ project with any history, you have not looked hard enough.
 - `docs/` holds the project's living documentation; every module/subsystem gets its own md file. If `docs/` is missing, create it plus `docs/README.md` before any other doc work.
 - `docs/README.md` is the index: one line per doc with a short description. Update it whenever a doc is added, removed or renamed.
 - Any change touching documented behaviour updates its doc **in the same change** — a change isn't done until its docs are.
+  ⚠ **If `docs/` is a separate repository, "the same change" is impossible** and saying it anyway trains sessions to ignore the rule. Measured on two of five projects: one with `docs/` nested and separately versioned, one with `docs/` as a sibling repo carrying its own GitHub remote, 332 commits and its own branch. There, the obligation is *the same session*, plus a named way to tell that the docs repo has fallen behind — not a shared commit that cannot exist. Say which of the two regimes this project is under.
 - New feature/module → new doc file → add to the index.
 - One-home rule: each topic lives in exactly one doc; everywhere else links to it, never copies it.
 - **Code is ground truth.** A doc line contradicted by code gets fixed the moment it's found, not noted for later.

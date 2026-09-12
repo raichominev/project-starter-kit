@@ -6,6 +6,8 @@ Look for existing plans and records: `PLAN*`, `ROADMAP*`, `TODO*`, `CHANGELOG*`,
 
 An existing plan outranks the template on content. Move its content into the new structure and keep all of it.
 
+**And if the existing plan is already doing the job, leave it alone.** A project whose plan and archive already carry status, dated closures and a ranked queue does not need restructuring into this shape — say that it already satisfies the step, note anything genuinely missing, and stop. Reformatting a working instrument into the template's layout is churn, and it costs the owner the familiarity they already have with it.
+
 ## 2. Collect the open work from evidence
 
 Take candidate items from these sources:

@@ -2,7 +2,19 @@ Set up this project's `CLAUDE.md` from [CLAUDE.template.md](CLAUDE.template.md),
 
 ## 1. Inventory what already exists
 
-Look for existing agent instructions before assuming a blank slate: `CLAUDE.md` (root and any nested), `AGENTS.md`, `.cursorrules`, `.github/copilot-instructions.md`, `CONTRIBUTING.md`, `docs/`. Report what you found. If a `CLAUDE.md` already exists, read it fully — it may be self-generated (e.g. by `/init`) or hand-written, and it outranks the template on anything project-specific.
+**Enumerate. Do not check a list.** The instinct is to test a handful of expected paths and stop, and it is wrong often enough to be the single most reliable way this step produces a confident false picture. Measured across five projects, a checklist answered "no CLAUDE.md" four times for a project that had one, and gave the repository count of one project as 1, then 3, then 6, before an exhaustive scan found **9 repositories and 3 agent-instruction files**.
+
+So run the scans, and report a **census** rather than a yes/no per expected path:
+
+- **Every agent-instruction file**, by search and not by guess: `CLAUDE.md`, `.claude/CLAUDE.md`, `AGENTS.md`, `.cursorrules`, `.github/copilot-instructions.md`, `CONTRIBUTING.md` — at any depth, and **in every ancestor up to the drive root**. Claude Code auto-loads ancestor `CLAUDE.md` files and **does not stop at a git boundary**, so a file above the project governs it and loads first. A project can be a blank slate and still be fully governed from above.
+- **Every git repository in the tree**, by finding `.git` rather than by testing the root. A project directory is often not the repository; the repository is often not one. Watch for a `.git` that is a **stub** — a near-empty directory that makes every `git` command fail and defeats a naive `isdir('.git')` check.
+- **Siblings.** A knowledge base, research corpus or docs repository *beside* the project is part of its real input though nothing inside points at it.
+
+Read every instruction file you find, fully. Each outranks the template on anything project-specific.
+
+**Then reconcile what you found — several files at different scopes is the normal case.** The buckets in section 3 assume one. When more than one exists, do not merge them; decide **per rule** which scope owns it — a rule governing several projects stays in the ancestor, a rule about this project moves down — and write the split into your report as a decision, not a silent choice. An ancestor contradicting the project file is a conflict for the owner, exactly like a template conflict. Expect at least: a live file, possibly an auto-synced mirror, possibly a stale backup copy, and possibly module-scoped files.
+
+**Check whether the project already automates an invariant before prescribing discipline for it.** If an identical `AGENTS.md` is kept in sync by a hook rather than by hand, say so — the pair cannot drift, and warning about drift there is noise. Same for anything else the kit tells a human to remember.
 
 **Look up and sideways, not only down.** Every entry above names something *inside* the project, and that is the single most reliable way this step misses the file that actually governs the work:
 
