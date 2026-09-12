@@ -80,18 +80,17 @@ The template's own rules take over: docs are updated in the same change as the c
 
 ## Companion plugins
 
-Two Claude Code plugins in the `raicho-skills` marketplace write the handoffs that `docs/sessions/` holds:
+Two Claude Code plugins write the handoffs that `docs/sessions/` holds:
 
 - [deep-handoff](https://github.com/raichominev/session-handoff-skill) writes the session-close handoff and verifies it in rounds.
 - [compaction-handoff](https://github.com/raichominev/compaction-handoff) writes a handoff before each auto-compaction and pastes its continuation prompt back afterwards.
 
-Both live in the **`raicho-skills`** marketplace, whose manifest is hosted in the
-[concilium](https://github.com/raichominev/concilium) repository — so that is the repository you add,
-even though the plugin you install is a different one:
+Both are in the **`raicho-handoffs`** marketplace, whose manifest is in the `compaction-handoff`
+repository:
 
 ```text
-/plugin marketplace add raichominev/concilium
-/plugin install compaction-handoff@raicho-skills
+/plugin marketplace add raichominev/compaction-handoff
+/plugin install compaction-handoff@raicho-handoffs
 ```
 
 Installing `compaction-handoff` brings `deep-handoff` with it; you do not need to install both.
