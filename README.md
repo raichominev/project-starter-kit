@@ -29,6 +29,7 @@ project. The skill carries the order and the stop points, and the three step fil
 | [01-bootstrap-claude-md.md](01-bootstrap-claude-md.md) | Step 1. Fills the template's placeholders from evidence, and reconciles it against any `CLAUDE.md` the project already has. Stops and asks on genuine conflicts. |
 | [02-bootstrap-docs.md](02-bootstrap-docs.md) | Step 2. Builds `docs/` from the actual source — environment, architecture, modules, API, data model, glossary, open questions, test-coverage gaps — and wires the index back into `CLAUDE.md`. |
 | [03-bootstrap-plan.md](03-bootstrap-plan.md) | Step 3. Builds `PLAN.md`, `PLAN-ARCHIVE.md` and `LEDGER.tsv` from evidence, makes the open-questions doc the ruling register, creates `docs/sessions/` for handoffs, and wires them into `CLAUDE.md`. |
+| [scripts/orphan_sweep.py](scripts/orphan_sweep.py) | The kit's one executable check. Reports artefacts meant to be invoked that nothing in the repository names. Run it at a session close — `python scripts/orphan_sweep.py <repo-root>`; exits `1` when it finds one. Python 3, no dependencies. |
 
 ## What the target project needs
 

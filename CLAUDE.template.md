@@ -43,6 +43,7 @@ project with any history, you have not looked hard enough.
 - Any change touching documented behaviour updates its doc **in the same change** — a change isn't done until its docs are.
   ⚠ **If `docs/` is a separate repository, "the same change" is impossible** and saying it anyway trains sessions to ignore the rule. Measured on two of five projects: one with `docs/` nested and separately versioned, one with `docs/` as a sibling repo carrying its own GitHub remote, 332 commits and its own branch. There, the obligation is *the same session*, plus a named way to tell that the docs repo has fallen behind — not a shared commit that cannot exist. Say which of the two regimes this project is under.
 - New feature/module → new doc file → add to the index.
+- **Register every new artefact that is meant to be invoked** — a script, a tool, an importer, a job. Document where it lives and how to run it, including the flags that are not obvious, and link it from the index. An artefact nothing points at is invisible to the next session, which then rebuilds it. Measured on one project: a wiring audit found **9** such orphans, one of them a working OCR capability that no maintained document named.
 - One-home rule: each topic lives in exactly one doc; everywhere else links to it, never copies it.
 - **Code is ground truth.** A doc line contradicted by code gets fixed the moment it's found, not noted for later.
 - Prune stale lines; don't only append.
@@ -63,6 +64,7 @@ project with any history, you have not looked hard enough.
 ## Checks and traps
 
 - A trap that cost time or caused damage goes into this file as one line: the rule, and the wrong result that it produced. When a trap bites a second time, turn it into a check.
+- ⚠ **A trap entry names the check that would catch it, or says plainly that none can.** "Turn it into a check" on its own does not happen. Measured on the project this rule came from: **25 traps catalogued, and not one check validated** — its own documentation records that no check there has ever caught a planted defect. A rule costs one line at the moment you learn it, and a check costs a script, a fixture, a planted defect and a control run, so the catalogue grows and the checks never arrive. Naming the missing check does not build it. It does keep the gap visible instead of letting the trap entry look finished.
 - A check is a script or test that fails when its rule breaks. A check counts only after it has caught a planted defect. Run a control first, and make a partial run fail.
 - Establish the state by measurement. To find out whether a change is in a copy, compare the copy with the authoritative one, by a diff or a hash. A missing record does not show that nobody made the change. Before you conclude how production behaves, read its deployed data and configuration.
 - Before you change behaviour that no test covers, pin it. Keep the current output for real input as a golden file. After the change, compare the new output with it. Compare field by field. A check of headers or counts alone can hide a shifted column.

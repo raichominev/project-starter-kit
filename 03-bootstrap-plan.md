@@ -87,6 +87,20 @@ Create `docs/sessions/README.md` with the rules below and an empty index. At eac
 - Before you write a handoff, move its durable facts to their home docs.
 - A handoff holds the read order, the state by topic, a ranked queue and the open questions. It also lists what not to retry, each with its reason and its ledger row.
 - Before you hand off, recompute each number, check each link and run each command that the handoff names. Mark a claim that you cannot check as `unverified`.
+- **Sweep for orphans, at the handoff and not during the work.** List the artefacts that are meant to be invoked — a script, a tool, an importer, a job — and report each one that no document, no index, no other code and no CI step names. The session that builds such an artefact is the one that cannot see it, so this sweep has to run at a checkpoint. The session close is the right cadence: regular, and not every prompt. Measured on one project: **9** orphans, one of them a working OCR capability that no maintained document named.
+
+  [`scripts/orphan_sweep.py`](scripts/orphan_sweep.py) does this, with no dependencies beyond Python 3:
+
+  ```bash
+  python scripts/orphan_sweep.py <repo-root> --by-dir      # where is the noise?
+  python scripts/orphan_sweep.py <repo-root> --exclude 'vendored/tree/*'
+  ```
+
+  It exits `1` when it finds an orphan, so a hook or a CI step can gate on it. It is biased to **under**-report: any mention of the file name anywhere counts as a reference. A check that cries wolf is a check nobody runs.
+
+  **Run `--by-dir` first on a repository you have not swept before.** It prunes virtualenvs and git worktrees on its own, but it cannot know what a project vendors, and vendored trees dominate the first result. Measured on one 14,508-file project: 221 invocable artefacts, 55 orphans, of which about 13 were vendored JavaScript, a bundled toolchain and build output. The remaining signal was real, and its largest cluster was a 14-file OCR toolchain that no maintained document named.
+- **Change the probe each round.** A repeated probe finds nothing new. Rotate them: a claim against its home doc, the code's actual behaviour, the data, one doc against another, every number recomputed, then the orphan sweep. Record which probe ran, so the next round must use a different one.
+- ⚠ **A keyword search can produce a false PASS.** A distinctive term can match boilerplate elsewhere in the file. Confirm by reading the line around the hit. Never confirm by presence alone.
 - A handoff is a dated snapshot. Resume from it, and read the current state from the home docs.
 - The `deep-handoff` and `compaction-handoff` plugins write these handoffs.
 
