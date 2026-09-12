@@ -24,6 +24,8 @@ meaningless and you should know which.
 |---|---|
 | **A git repository** | The template's worktree, pathspec-commit, integration-branch and deployed-commit rules have no referent, and `LEDGER.tsv`'s `commit` column cannot be filled. Delete those rules and use the column as a dated **evidence anchor** instead — a date plus the runbook, output file or quarantine folder that fixes the result in time. Say in `CLAUDE.md` that the project is not a repository, so no session assumes otherwise. |
 | **A package manifest** | Leave `Build` / `Run` / `Test` / `Lint` as `none` rather than as `<...>`. A project can legitimately have none of them. |
+| **One** package manifest | Two that disagree is common and worse than none, because each looks authoritative alone. Measured: a `pyproject.toml` declaring 3 dependencies plus 2 *optional* extras beside a `requirements.txt` pinning 37 packages including both extras unconditionally — and the launcher installed the second. **Find which one the project actually runs**, record that, and note the disagreement. |
+| **One** test runner | `pytest --collect-only` finding tests does not mean it finds *the* tests. Measured: 29 collected, all from one file, while 9 of 10 `test_*.py` files held no test functions at all and were standalone scripts, several reaching live services by default. Inventory the test files, not just the runner's output. |
 | **Executable tests** | `02`'s `TEST-COVERAGE.md` does not apply. Write `VERIFICATION.md` instead: the checks that do exist, what each proves, what it does not, and the gaps ranked by risk. |
 | **Any open work** | `03` should be refused, not forced — see its own step 2: "a project with no open work should not be given a plan, and manufacturing phases to fill the template is worse than leaving it out." Say so in `CLAUDE.md`. Omit the `03`-created files' line in Project facts and the whole "Plan, ledger and rulings" section (both now conditional — see `CLAUDE.template.md`) rather than leaving them pointing at files that don't exist and won't. |
 
@@ -39,7 +41,13 @@ No step chains into the next on its own. Each one offers the next step and waits
 
 ## What the kit sets up
 
-Each of these instruments has caught real problems in real projects:
+What each instrument is for, and what it is measurably good at.
+
+**Be clear about the claim.** Tested against four past mistakes on a real legacy project, the kit's
+own instruments would have cleanly caught **one**, and that one was a cross-model review round —
+a practice alongside the kit, not part of it. What they demonstrably *do* is turn a mistake that has
+already happened into a standing rule that stops the second occurrence. That is worth a great deal,
+and it is not the same as catching the first one.
 
 - **A plan that holds open work only.** Each step has a `Verify:` line, and each phase ends at a stop point for the owner. A closed step carries its date and where the work departed from the plan. A finished phase moves to an archive, and nothing depends on the archive.
 - **An append-only ledger.** Every measurement, failed run, decision, release and retraction gets a row, with the command and the commit that produced it. It stops a session from redoing rejected work, and it keeps numbers from drifting between docs.

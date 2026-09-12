@@ -35,6 +35,8 @@ One entry per top-level module: purpose, key files, public interface (exported f
 
 Every route/endpoint: method, path, auth requirement, request shape, response shape, error cases. Include background jobs and webhooks if present.
 
+**Count the routes before you start.** Past roughly thirty, full detail for every one is a task of its own and will either stall this step or produce a thin, wrong document. Instead: list **all** routes with method, path and auth — that inventory is the part nobody can reconstruct later — then give full request/response/error detail only for the paths the project actually turns on, and say in the document which ones are detailed and which are listed only. A complete list with honest partial depth beats a partial list presented as complete.
+
 ## 5. Data model — `docs/DATA-MODEL.md`
 
 Entities, fields, relations, constraints, indexes, migration mechanism. Where schema and code disagree, say which one the runtime actually uses.
@@ -62,6 +64,13 @@ One line per doc file with a short description. Link `docs/README.md` from the r
 Use this when the project is distilled from sources outside the repo: a legacy system, a database or a set of documents.
 
 - A script makes each extract in `research/`. Nobody edits an extract by hand.
+- **If the corpus is hand-authored, this is the wrong instrument** — the no-hand-edits rule is the
+  whole point of it, and applying it to prose someone maintains by hand makes the rule a lie. Treat a
+  hand-authored corpus as a source to cite, with its own home doc saying what it holds and who
+  maintains it.
+- **If it lives outside the project** — a sibling directory, a separate repository, a shared drive —
+  say so explicitly in the index, with its path and whether it is versioned separately. It is part of
+  the project's real input even though nothing inside the project points at it.
 - `docs/RESEARCH-METHOD.md` gives, for each extract, the command that makes it again.
 - A doc that states a fact from a source cites the source object.
 

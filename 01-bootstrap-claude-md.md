@@ -4,6 +4,13 @@ Set up this project's `CLAUDE.md` from [CLAUDE.template.md](CLAUDE.template.md),
 
 Look for existing agent instructions before assuming a blank slate: `CLAUDE.md` (root and any nested), `AGENTS.md`, `.cursorrules`, `.github/copilot-instructions.md`, `CONTRIBUTING.md`, `docs/`. Report what you found. If a `CLAUDE.md` already exists, read it fully — it may be self-generated (e.g. by `/init`) or hand-written, and it outranks the template on anything project-specific.
 
+**Look up and sideways, not only down.** Every entry above names something *inside* the project, and that is the single most reliable way this step misses the file that actually governs the work:
+
+- **Walk the parent directories to the drive root.** Claude Code auto-loads `CLAUDE.md` from ancestors of the working directory, and **it does not stop at a git boundary** — so a file one level up governs this project and loads *before* anything the project itself contains. A project can be a true blank slate and still be fully governed from above. Report every ancestor file you find, with its path.
+- **Look at siblings.** A knowledge base, a research corpus or a shared docs repository next to the project is part of its real input even though no path inside the project points at it.
+
+**Two existing files at different scopes is the normal case, not an edge case**, and the buckets below assume one. When an ancestor file and a project file both exist, do not merge them: decide, per rule, which scope owns it — a rule that governs several projects stays in the ancestor, a rule about this project moves down — and **write the split into your report as a decision, not a silent choice.** If the ancestor contradicts the project file, that is a conflict for the owner, exactly like a template conflict.
+
 Check whether `docs/` (or any subdirectory) is itself a separate git repository nested inside this one, with its own remote — possibly excluded from the parent's `.gitignore` entirely. If so, say so: it has its own commit history and its own dirty/clean state, independent of the project repository's, and later steps' "same commit" and ledger-`commit`-column conventions apply per repository, not to the project as a single whole.
 
 ## 2. Discover the project facts

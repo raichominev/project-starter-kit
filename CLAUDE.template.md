@@ -73,7 +73,13 @@ project with any history, you have not looked hard enough.
 - The `deep-handoff` plugin writes the session-close handoff. The `compaction-handoff` plugin writes one before each auto-compaction and pastes its continuation prompt back afterwards.
 - Native memory holds only what the repo cannot hold: the owner's preferences and quirks of the environment. It holds no project state.
 
-## Concurrent sessions — delete this section if one session works at a time
+## Concurrent sessions — delete this section only if nothing else touches the tree
+
+⚠ **`git worktree list` is not the test.** It counts concurrent *Claude Code sessions* and is blind
+to everything else that writes to the same files: the owner editing directly, a sync client such as
+OneDrive or Dropbox, another editor, another tool. Measured on a project whose worktree count stayed
+at exactly **1** while a real concurrent edit landed mid-session. Before deleting this section, check
+for a sync client on the path and for file mtimes newer than `HEAD`, not only for worktrees.
 
 - Start each session in its own git worktree and branch. Set `worktree.baseRef` in `.claude/settings.json` to the integration branch, `<branch>`.
 - In a checkout that other sessions share, commit with a pathspec: `git commit -- <paths>`. A plain `git add` followed by `git commit` can take another session's staged work.
