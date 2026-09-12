@@ -1,0 +1,4 @@
+# Build artifacts. A packaged copy of this kit goes stale the moment the
+# instructions change, and a stale copy of an instruction set is worse than none:
+# whoever unpacks it gets the defects the current version has already fixed.
+*.zip

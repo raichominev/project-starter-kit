@@ -69,7 +69,7 @@ Inventory the existing tests and the framework/runner in use. Map coverage again
 
 ## 9. Index and wiring — `docs/README.md`
 
-One line per doc file with a short description. **If the project already has an index under another name — `index.md`, `TOC.md`, a `doc-homes.tsv` — use it and do not rename it**: inbound links name it, and the one-home rule outranks this step's naming. Link that index from `CLAUDE.md` so it is reachable from the project's agent instructions. When the project has more than about ten docs, also add a `What | Home` table to `CLAUDE.md` that maps each topic to its one home doc.
+One line per doc file with a short description. **If the project already has an index under another name — `index.md`, `TOC.md`, or a machine-readable map such as a topic-to-file table — use it and do not rename it**: inbound links name it, and the one-home rule outranks this step's naming. Link that index from `CLAUDE.md` so it is reachable from the project's agent instructions. When the project has more than about ten docs, also add a `What | Home` table to `CLAUDE.md` that maps each topic to its one home doc.
 
 ## Optional: evidence folder — `research/` and `docs/RESEARCH-METHOD.md`
 
