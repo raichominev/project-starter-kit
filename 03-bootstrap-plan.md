@@ -55,11 +55,11 @@ The ledger records what was done, so that no session does it again or measures i
 |---|---|
 | `date` | `YYYY-MM-DD` |
 | `id` | `L-<n>`. An id is never used again. |
-| `parent_id` | The row that this row corrects or continues. Empty if there is none. |
+| `parent_id` | The row this row relates to, **with the relation named in `change`**: *extends*, *corrects*, *retracts* or *supersedes*. A bare id cannot carry that, and the difference matters: a row that extends its parent leaves the parent standing, a row that retracts it does not. Empty if there is none. |
 | `kind` | `measurement`, `run`, `decision`, `release` or `retraction` |
 | `change` | What was done or tried, in one line |
 | `result` | The number or the outcome |
-| `verdict` | Which one depends on the `kind`. `measurement` → `KEPT` (the number stands) or `WITHDRAWN` (it was wrong). `run` → `DONE` (it worked), `REJECTED` (the approach does not work — this is the row that blocks a retry) or `INVALID` (the run itself was broken, so it measured nothing). `decision` → `DONE` or `SUPERSEDED`. `retraction` → `KEPT`, since the retraction itself stands. |
+| `verdict` | Which one depends on the `kind`. `measurement` → `KEPT` (the number stands) or `WITHDRAWN` (it was wrong). `run` → `DONE` (it worked), `REJECTED` (the approach does not work — this is the row that blocks a retry) or `INVALID` (the run itself was broken, so it measured nothing). `decision` → `DONE` or `SUPERSEDED`. `release` → `DONE`, or `WITHDRAWN` if it was rolled back. `retraction` → `KEPT`, since the retraction itself stands. |
 | `evidence` | The command, test or file that produced the result |
 | `commit` | The commit that the result belongs to. **If the project is not a git repository**, use a dated evidence anchor instead — a date plus the runbook, output file or quarantine folder that fixes the result in time — and say in `CLAUDE.md` that the column means that here |
 | `detail` | The doc that holds the detail |
@@ -70,6 +70,8 @@ Rules:
 - A number needs its evidence and its commit. A number without them does not go into the ledger or into a doc.
 - Read the ledger before you propose work. A `REJECTED` row blocks a retry. Only new evidence reopens it, and the new row gives that evidence.
 - When you retract a claim, correct every doc that repeated it, in the same commit.
+- **A retraction row is only useful if it records what would have caught the mistake.** Write: the single scoped claim that was wrong, the action or checkpoint it preceded, **the exact probe or file comparison with its inputs**, the observation that rejected it, and a pointer to the raw evidence. If you cannot supply the probe — because the claim was interpretive, or the evidence no longer exists — say so in the row rather than leaving a readable account that looks complete. Measured: of 36 real retraction rows, 14 yielded no runnable check, and each of those was missing the invocation, the discriminating witness, or evidence that no longer existed.
+- ⚠ **Do not expect a later tool to reconstruct the check from the prose.** In a blinded test, a capable model proposed a plausible-looking check for a third of statements that had never been wrong at all, so a check "recovered" from a badly written row is as likely to be invention as recall.
 
 ## 6. Make `docs/QUESTIONS-FOR-OWNER.md` the ruling register
 
