@@ -2,19 +2,22 @@ Set up this project's plan, ledger and ruling register. Run this step after `01`
 
 ## 1. Inventory what already exists
 
-Look for existing plans and records: `PLAN*`, `ROADMAP*`, `TODO*`, `CHANGELOG*`, `HANDOFF*`, `*.tsv`, `docs/sessions/`, release notes, and any issue tracker that the docs name. Report what you found.
+Look for existing plans and records: `PLAN*`, `ROADMAP*`, `TODO*`, `CHANGELOG*`, `HANDOFF*`, `REMEDIATION*`, `docs/sessions/`, release notes, a `.tsv` **that records decisions or measurements** (a regenerated data extract is not one — check what it holds before treating it as a ledger), and any issue tracker that the docs name. Report what you found.
 
 An existing plan outranks the template on content. Move its content into the new structure and keep all of it.
 
 ## 2. Collect the open work from evidence
 
-Take candidate items only from these sources:
+Take candidate items from these sources:
 
 - The owner's request.
+- **Any existing plan, remediation list, roadmap or ranked queue the project already keeps** — including one inside a handoff. This is where the open work usually is, and section 1 already told you to keep all of it.
 - `docs/QUESTIONS-FOR-OWNER.md`.
-- The gaps in `docs/TEST-COVERAGE.md`.
+- The gaps in `docs/TEST-COVERAGE.md`, or in `VERIFICATION.md` if the project has that instead.
 - `TODO` and `FIXME` lines in the code. Cite `file:line`.
 - Open issues.
+
+Do not invent items from anywhere else. If all of these are empty, say so — **a project with no open work should not be given a plan**, and manufacturing phases to fill the template is worse than leaving it out.
 
 Show the list. Ask the owner which items go into the plan, and in which order.
 
@@ -40,7 +43,7 @@ Close a step in this order:
 3. Rewrite the step's line to `Done YYYY-MM-DD`. Add one line on where the work departed from the plan.
 4. When all steps of a phase are done, move the phase to `PLAN-ARCHIVE.md`. Leave one dated line in `PLAN.md` that points to it.
 
-Create `PLAN-ARCHIVE.md` now, with only its title. Nothing may depend on the archive, because it holds history only.
+Create `PLAN-ARCHIVE.md` now. **If the project has already finished phases of work, write them in** — section 1 said to keep all of an existing plan's content, and that includes the part that is done. For each: what it delivered, what it was checked against, and where it departed from what was expected. A title-only archive is correct only for a project with no history. Nothing may depend on the archive, because it holds history only.
 
 ## 5. Create `LEDGER.tsv` from `LEDGER.template.tsv`
 
@@ -54,9 +57,9 @@ The ledger records what was done, so that no session does it again or measures i
 | `kind` | `measurement`, `run`, `decision`, `release` or `retraction` |
 | `change` | What was done or tried, in one line |
 | `result` | The number or the outcome |
-| `verdict` | `KEPT`, `REJECTED`, `INVALID`, `DONE`, `SUPERSEDED` or `WITHDRAWN` |
+| `verdict` | Which one depends on the `kind`. `measurement` → `KEPT` (the number stands) or `WITHDRAWN` (it was wrong). `run` → `DONE` (it worked), `REJECTED` (the approach does not work — this is the row that blocks a retry) or `INVALID` (the run itself was broken, so it measured nothing). `decision` → `DONE` or `SUPERSEDED`. `retraction` → `KEPT`, since the retraction itself stands. |
 | `evidence` | The command, test or file that produced the result |
-| `commit` | The commit that the result belongs to |
+| `commit` | The commit that the result belongs to. **If the project is not a git repository**, use a dated evidence anchor instead — a date plus the runbook, output file or quarantine folder that fixes the result in time — and say in `CLAUDE.md` that the column means that here |
 | `detail` | The doc that holds the detail |
 
 Rules:
@@ -85,6 +88,18 @@ Create `docs/sessions/README.md` with the rules below and an empty index. At eac
 
 ## 8. Wire and report
 
-Link `PLAN.md`, `LEDGER.tsv`, `docs/QUESTIONS-FOR-OWNER.md` and `docs/sessions/README.md` from `CLAUDE.md` and from `docs/README.md`.
+Link `PLAN.md`, `LEDGER.tsv`, `PLAN-ARCHIVE.md`, `docs/QUESTIONS-FOR-OWNER.md` and `docs/sessions/README.md` from `CLAUDE.md` and from `docs/README.md`.
+
+**A link is not an explanation.** Check that `CLAUDE.md` also carries the *usage* rules for what you just created — append-only, `parent_id` for corrections, a number needs its evidence and its anchor, `Done YYYY-MM-DD`, nothing depends on the archive, a `REJECTED` row blocks a retry. Those rules live in `CLAUDE.template.md`'s **Plan, ledger and rulings** section, which is `01`'s territory — so **if `01` was not run, or ran before these files existed, they are missing**, and the project now links to instruments nobody has been told how to use. Add the section, and say that you did.
+
+**Check the names against the project's own vocabulary.** A project whose domain already contains a "ledger", a "plan" or a "register" will read `LEDGER.tsv` as one of its own. Say so in the index line if it does, so the two are not confused.
 
 Report the phases and steps in the plan, the open decisions, the ledger rows that you added, and what you could not determine.
+
+## Next
+
+Nothing chains automatically. Report, then stop and wait.
+
+Tell me: the phases and steps now in the plan, the open decisions, the ledger rows you added, and
+what you could not determine. Then offer — and wait for an answer — to close the loop by running the
+first `Verify:` line in the plan, so the plan's first claim is tested rather than assumed.

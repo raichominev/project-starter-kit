@@ -1,6 +1,8 @@
 # <PROJECT> — CLAUDE.md
 
-Template. Replace `<...>` placeholders. The sections below are behavioural guardrails — they do not replace project-specific architecture or style rules; put those under Project facts.
+Template. Replace `<...>` placeholders, and **delete this paragraph** once you do — it is an instruction to the person filling the template in, and it is false in the finished file.
+
+The sections below are behavioural guardrails. They do not replace project-specific architecture or style rules: those go under **Project rules** and **Critical cautions**, which exist for exactly that and which outrank the generic sections whenever the two disagree.
 
 ## Project facts
 
@@ -11,6 +13,28 @@ Template. Replace `<...>` placeholders. The sections below are behavioural guard
 - Lint/format: `<command>`
 - Docs index: [docs/README.md](docs/README.md)
 - Plan: [PLAN.md](PLAN.md) · Ledger: [LEDGER.tsv](LEDGER.tsv) · Rulings: [docs/QUESTIONS-FOR-OWNER.md](docs/QUESTIONS-FOR-OWNER.md) · Handoffs: [docs/sessions/](docs/sessions/README.md)
+
+> **These four are created by `03`, not by `01`.** If you are writing this file during `01`, they do
+> not exist yet, and shipping the line as-is gives the project four dead links. Either omit the line
+> until `03` runs, or keep it and say in the same breath that the files are pending. Delete this note
+> once they exist.
+
+## Project rules
+
+Everything specific to *this* project that a session must obey: the domain rules, the API and schema
+quirks, the "never touch X", the deploy peculiarities, the things that look wrong and are correct.
+The behavioural sections further down are generic; **this section is where the project's own
+knowledge lives**, and it outranks them on any conflict.
+
+- `<rule — what to do, and what happens if you don't>`
+
+## Critical cautions
+
+The subset of the above that **causes damage** when a session does not know it. One line each,
+stated as the wrong belief and its consequence, not as a neutral fact. If this section is empty on a
+project with any history, you have not looked hard enough.
+
+- `<the trap, and the damage it causes>`
 
 ## Documentation — mandatory
 
@@ -25,9 +49,9 @@ Template. Replace `<...>` placeholders. The sections below are behavioural guard
 - This file holds standing rules. Counts, dated narrative and current status go to their home docs, and this file points to them.
 - A rule belongs in this file when a session that does not know it can damage something. Everything else is a pointer to its home doc.
 
-## Plan, ledger and rulings
+## Plan, ledger and rulings — delete this section (and the matching Project-facts line) if `03` will not be run
 
-- `PLAN.md` holds open work only: phases, steps with `Verify:` lines, open decisions and the Settled list. Each item points to the file that holds its result.
+- `PLAN.md` holds open work only: phases, steps with `Verify:` lines, open decisions and the Settled list. Each item points to the file that holds its result. "Open work only" governs what the plan is *for* — a step closed as `Done YYYY-MM-DD` stays until its phase is archived, and a `Closed` list of one-line pointers to archived phases is not a violation of it.
 - Before you start work, read `PLAN.md` and `LEDGER.tsv`. Nobody raises a Settled item again. A `REJECTED` ledger row is not retried without new evidence.
 - Close a step in this order: run its `Verify:` line, move its durable facts to their home docs, then rewrite the step to `Done YYYY-MM-DD` with any departure from the plan. Move a finished phase to `PLAN-ARCHIVE.md`. Change the plan's status header in the same commit as the work.
 - `LEDGER.tsv` is append-only. Add a row for each measurement, failed or invalid run, decision, release and retraction. A correction is a new row that names the old one in `parent_id`.

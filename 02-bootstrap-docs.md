@@ -4,6 +4,21 @@ If the repo is large, go module by module rather than in one pass — finish and
 
 If the project is not a web application, adapt the docs below to its real structure, and say which ones you changed.
 
+**Four of the nine are conditional. Do not create a document with no referent** — an empty `API.md`
+is worse than no `API.md`, because the index then promises something the project does not have.
+
+| Doc | When |
+|---|---|
+| `ENVIRONMENT.md`, `ARCHITECTURE.md`, `CONCEPTS.md`, `QUESTIONS-FOR-OWNER.md`, `README.md` | **Always.** Every project has an environment, a shape, vocabulary, open questions, and needs an index |
+| `MODULES.md` | only if the project has more than one module of its own code |
+| `API.md` | only if it exposes routes, endpoints, jobs or webhooks |
+| `DATA-MODEL.md` | only if it owns a schema or a persistent store |
+| `TEST-COVERAGE.md` | only if executable tests exist or could. **Otherwise write `VERIFICATION.md`**: the checks that do exist, what each one proves, what it does **not** prove, and the gaps ranked by risk |
+
+**If the project already has a doc that covers one of these under another name, use it.** Do not
+create `DATA-MODEL.md` beside an existing `CONTENT-MODEL.md`, and do not rename a file the project's
+own links depend on — the one-home rule outranks this list's naming. Record the mapping in the index.
+
 ## 1. Environment — `docs/ENVIRONMENT.md`
 
 Language/runtime versions, package manager, framework(s), build tool, deploy target (container/serverless/VM/static), config sources and env var **names and purpose only — never values**, external services (DB, cache, queue, auth provider, third-party APIs). End with a local dev runbook: the exact commands to install, build, run and test.

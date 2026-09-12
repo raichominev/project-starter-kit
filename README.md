@@ -15,6 +15,20 @@ The files here are **instructions, not documentation**. They are meant to be han
 | [02-bootstrap-docs.md](02-bootstrap-docs.md) | Step 2. Builds `docs/` from the actual source — environment, architecture, modules, API, data model, glossary, open questions, test-coverage gaps — and wires the index back into `CLAUDE.md`. |
 | [03-bootstrap-plan.md](03-bootstrap-plan.md) | Step 3. Builds `PLAN.md`, `PLAN-ARCHIVE.md` and `LEDGER.tsv` from evidence, makes the open-questions doc the ruling register, creates `docs/sessions/` for handoffs, and wires them into `CLAUDE.md`. |
 
+## What the target project needs
+
+Check these before starting. The kit works without them, but several instructions become
+meaningless and you should know which.
+
+| Requirement | If absent |
+|---|---|
+| **A git repository** | The template's worktree, pathspec-commit, integration-branch and deployed-commit rules have no referent, and `LEDGER.tsv`'s `commit` column cannot be filled. Delete those rules and use the column as a dated **evidence anchor** instead — a date plus the runbook, output file or quarantine folder that fixes the result in time. Say in `CLAUDE.md` that the project is not a repository, so no session assumes otherwise. |
+| **A package manifest** | Leave `Build` / `Run` / `Test` / `Lint` as `none` rather than as `<...>`. A project can legitimately have none of them. |
+| **Executable tests** | `02`'s `TEST-COVERAGE.md` does not apply. Write `VERIFICATION.md` instead: the checks that do exist, what each proves, what it does not, and the gaps ranked by risk. |
+| **Any open work** | `03` should be refused, not forced — see its own step 2: "a project with no open work should not be given a plan, and manufacturing phases to fill the template is worse than leaving it out." Say so in `CLAUDE.md`. Omit the `03`-created files' line in Project facts and the whole "Plan, ledger and rulings" section (both now conditional — see `CLAUDE.template.md`) rather than leaving them pointing at files that don't exist and won't. |
+
+None of these is a blocker. All of them change what the steps should produce.
+
 ## Order
 
 1. **`01`** — read-only discovery, then reconcile, then write `CLAUDE.md`. It halts for a decision whenever an existing rule contradicts the template; the existing file wins on anything project-specific.
@@ -39,8 +53,10 @@ Each of these instruments has caught real problems in real projects:
 
 Paste this into a chat opened in the target project:
 
+Replace `<KIT>` with wherever you cloned this.
+
 ```text
-Bootstrap this project using G:\prj\project-starter-kit.
+Bootstrap this project using <KIT>.
 
 Read its README.md for the order, then run 01-bootstrap-claude-md.md against
 this repo, using CLAUDE.template.md as the template. Honour its stop points —
