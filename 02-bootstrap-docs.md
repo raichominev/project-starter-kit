@@ -9,11 +9,14 @@ is worse than no `API.md`, because the index then promises something the project
 
 | Doc | When |
 |---|---|
-| `ENVIRONMENT.md`, `ARCHITECTURE.md`, `CONCEPTS.md`, `QUESTIONS-FOR-OWNER.md`, `README.md` | **Always.** Every project has an environment, a shape, vocabulary, open questions, and needs an index |
+| `README.md` (the index) | **Always.** Even one document needs an index |
+| `ENVIRONMENT.md`, `ARCHITECTURE.md` | Almost always — but if the project is small enough that either would be padding, fold it into the index and say so |
+| `CONCEPTS.md` | only if the project has vocabulary a newcomer would misread. A project whose names mean what they say does not need a glossary |
+| `QUESTIONS-FOR-OWNER.md` | as soon as there is **one** question or **one** ruling to record. Do not create it empty — but do create it the moment `03` needs a ruling register |
 | `MODULES.md` | only if the project has more than one module of its own code |
-| `API.md` | only if it exposes routes, endpoints, jobs or webhooks |
+| `API.md` | only if it exposes an interface others consume — routes, endpoints, jobs, webhooks, **or a library's public surface**. A single-module library with no HTTP at all can still have the most important API in the project |
 | `DATA-MODEL.md` | only if it owns a schema or a persistent store |
-| `TEST-COVERAGE.md` | only if executable tests exist or could. **Otherwise write `VERIFICATION.md`**: the checks that do exist, what each one proves, what it does **not** prove, and the gaps ranked by risk |
+| `TEST-COVERAGE.md` | only if executable tests **exist now**, or the project has a runner configured and intends them. "Could have tests" is every project, so it decides nothing. **Otherwise write `VERIFICATION.md`**: the checks that do exist, what each one proves, what it does **not** prove, and the gaps ranked by risk |
 
 **If the project already has a doc that covers one of these under another name, use it.** Do not
 create `DATA-MODEL.md` beside an existing `CONTENT-MODEL.md`, and do not rename a file the project's
@@ -25,6 +28,8 @@ files; architecture, API and modules were folded into a single 4,828-line file; 
 register existed as a *function* inside a plan, with no file of its own. Do not split what the
 project keeps together, do not merge what it keeps apart, and do not create a file for a function
 that already has a home. Record the mapping in the index.
+
+**This holds only while the existing arrangement is usable.** Preserving a layout is not the goal — finding things is. If the current arrangement genuinely defeats that (one undifferentiated file nobody can navigate, a topic scattered across five places with no index), say so, propose the split or the merge, and **ask before doing it**. Freezing a dysfunctional layout in the name of respecting it turns this step into a map of a dump, which is the case the kit exists to fix.
 
 ## 1. Environment — `docs/ENVIRONMENT.md`
 

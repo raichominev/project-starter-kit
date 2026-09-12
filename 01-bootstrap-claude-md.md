@@ -2,12 +2,17 @@ Set up this project's `CLAUDE.md` from [CLAUDE.template.md](CLAUDE.template.md),
 
 ## 1. Inventory what already exists
 
-**Enumerate. Do not check a list.** The instinct is to test a handful of expected paths and stop, and it is wrong often enough to be the single most reliable way this step produces a confident false picture. Measured across five projects, a checklist answered "no CLAUDE.md" four times for a project that had one, and gave the repository count of one project as 1, then 3, then 6, before an exhaustive scan found **9 repositories and 3 agent-instruction files**.
+**Enumerate. Do not check a list.** The instinct is to test a handful of expected paths and stop, and it is wrong often enough to be worth banning outright. Measured across five projects, a checklist answered "no CLAUDE.md" four times for a project that had one, and gave the repository count of one project as 1, then 3, then 6, before classification settled it at **8 repositories, 2 worktrees and 1 stub**, alongside 3 agent-instruction files.
 
 So run the scans, and report a **census** rather than a yes/no per expected path:
 
 - **Every agent-instruction file**, by search and not by guess: `CLAUDE.md`, `.claude/CLAUDE.md`, `AGENTS.md`, `.cursorrules`, `.github/copilot-instructions.md`, `CONTRIBUTING.md` — at any depth, and **in every ancestor up to the drive root**. Claude Code auto-loads ancestor `CLAUDE.md` files and **does not stop at a git boundary**, so a file above the project governs it and loads first. A project can be a blank slate and still be fully governed from above.
-- **Every git repository in the tree**, by finding `.git` rather than by testing the root. A project directory is often not the repository; the repository is often not one. Watch for a `.git` that is a **stub** — a near-empty directory that makes every `git` command fail and defeats a naive `isdir('.git')` check.
+- **Every git repository in the tree** — but `find -name .git` is itself too crude, and gets the count wrong in three different ways. Measured on one project, where successive answers were 1, 3, 6, 9, then finally **8 repositories, 2 worktrees and 1 stub**:
+  - **`.git` as a *file*, not a directory, is a worktree**, not a repository. It contains `gitdir: …`. Counting it as a repo inflates the total and invents components that cannot be live or dead on their own. Settle it with `git worktree list` from the parent repo — that project had **15** worktrees.
+  - **A near-empty `.git` directory is a stub.** Every `git` command there fails, and it defeats a naive `isdir('.git')` check — which is how the same project first appeared to *be* a repository when it was not.
+  - **Vendor clones and gitignored sub-clones** are repositories but not *this project's* repositories. Say which is which.
+
+  So: list candidates by search, then **classify each one** as repository / worktree / stub / vendor, and only then count.
 - **Siblings.** A knowledge base, research corpus or docs repository *beside* the project is part of its real input though nothing inside points at it.
 
 Read every instruction file you find, fully. Each outranks the template on anything project-specific.
@@ -15,13 +20,6 @@ Read every instruction file you find, fully. Each outranks the template on anyth
 **Then reconcile what you found — several files at different scopes is the normal case.** The buckets in section 3 assume one. When more than one exists, do not merge them; decide **per rule** which scope owns it — a rule governing several projects stays in the ancestor, a rule about this project moves down — and write the split into your report as a decision, not a silent choice. An ancestor contradicting the project file is a conflict for the owner, exactly like a template conflict. Expect at least: a live file, possibly an auto-synced mirror, possibly a stale backup copy, and possibly module-scoped files.
 
 **Check whether the project already automates an invariant before prescribing discipline for it.** If an identical `AGENTS.md` is kept in sync by a hook rather than by hand, say so — the pair cannot drift, and warning about drift there is noise. Same for anything else the kit tells a human to remember.
-
-**Look up and sideways, not only down.** Every entry above names something *inside* the project, and that is the single most reliable way this step misses the file that actually governs the work:
-
-- **Walk the parent directories to the drive root.** Claude Code auto-loads `CLAUDE.md` from ancestors of the working directory, and **it does not stop at a git boundary** — so a file one level up governs this project and loads *before* anything the project itself contains. A project can be a true blank slate and still be fully governed from above. Report every ancestor file you find, with its path.
-- **Look at siblings.** A knowledge base, a research corpus or a shared docs repository next to the project is part of its real input even though no path inside the project points at it.
-
-**Two existing files at different scopes is the normal case, not an edge case**, and the buckets below assume one. When an ancestor file and a project file both exist, do not merge them: decide, per rule, which scope owns it — a rule that governs several projects stays in the ancestor, a rule about this project moves down — and **write the split into your report as a decision, not a silent choice.** If the ancestor contradicts the project file, that is a conflict for the owner, exactly like a template conflict.
 
 Check whether `docs/` (or any subdirectory) is itself a separate git repository nested inside this one, with its own remote — possibly excluded from the parent's `.gitignore` entirely. If so, say so: it has its own commit history and its own dirty/clean state, independent of the project repository's, and later steps' "same commit" and ledger-`commit`-column conventions apply per repository, not to the project as a single whole.
 
@@ -31,7 +29,9 @@ Fill the template's `Project facts` placeholders from evidence, not guesswork:
 
 - Stack and versions — from the **package manifest** (`package.json`, `pyproject.toml`, `pom.xml`, `composer.json`, `go.mod`, `Cargo.toml`…) and its lockfile, plus any `.nvmrc` / `.tool-versions` / `Dockerfile` / CI config. A file merely *named* `manifest.*` is not necessarily one. If there is no package manifest, say so and take the stack from the docs or the source, marking it as such.
 - Build, run, test, lint commands — from the manifest's scripts, Makefile, or CI workflow. **If the project has none, write `none`** — that is a fact, not a gap, and leaving `<...>` implies work that does not exist.
-- **Verify each command — but only if it is read-only and local.** A command copied from a stale README that fails is worse than a placeholder. Run `--help`, `--version` and dry-run flags freely. **Do not run anything that writes, uploads, downloads, mutates state, or reaches a live service**, even when it is the documented way to use the project; steps 1–3 are read-only, and a documented command that pulls a mirror or overwrites an inventory file breaks that. For those, record the command, say it was **not executed**, and say why.
+- **Verify each command, within one limit.** A command copied from a stale README that fails is worse than a placeholder, so run `--help`, `--version`, dry-run and collect-only flags freely.
+  **Never run anything that reaches a live service, deploys, touches production, or is otherwise irreversible** — a command that pulls a mirror, overwrites an inventory file or writes to a server breaks the read-only contract of steps 1–3. Record those, say they were **not executed**, and say why.
+  **Local, reversible writes are fine, and sometimes necessary.** A test suite writes caches and temp files; a compile writes objects. The template asks for a `Test:` command and you cannot confirm one without running it — so run it, in a scratch or temp location where you can, and say what it wrote.
 - Working setup — the integration branch that session worktrees start from. List the shared resources (databases, test databases, servers) that two sessions must not use at the same time. These fill the `Concurrent sessions` section. If only one session works at a time, say so and delete that section.
 - If a fact can't be determined, leave the placeholder in and list it as a question rather than inventing a plausible value.
 
@@ -59,7 +59,7 @@ Nothing gets dropped silently: if you decide a rule doesn't carry over, say so a
 
 ## 4. Write
 
-**Write it where the project already keeps it.** Claude Code auto-loads `./CLAUDE.md` *and* `./.claude/CLAUDE.md`, so if the project's file lives in `.claude/`, editing it in place is right and creating a root one is wrong — you would leave two memory files that both load and immediately drift. Only put it at the root when there is no existing file anywhere. Say which location you wrote to.
+**Write it where the project already keeps it.** Claude Code auto-loads `./CLAUDE.md` *and* `./.claude/CLAUDE.md`, so if the project's file lives in `.claude/`, editing it in place is right and creating a root one is wrong — you would leave two memory files that both load and immediately drift. Put it at the root only when there is no existing file **at the project's own scope**. An ancestor file, or a module-scoped one deeper in, does **not** substitute for a project-wide home — Claude Code is designed to layer a project file under an ancestor, and skipping it because something governs from above leaves the project with no home of its own. Say which location you wrote to, and why.
 
 **If the project pairs `CLAUDE.md` with an identical `AGENTS.md`, keep the pair identical.** That pairing is deliberate: `AGENTS.md` is what codex and several other agents auto-load, so it is how a non-Claude session gets the same rules. Check with a hash, not by eye. If they have already drifted, that is a finding — report which is newer and ask which wins, rather than picking.
 

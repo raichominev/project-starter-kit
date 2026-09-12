@@ -79,8 +79,10 @@ project with any history, you have not looked hard enough.
 ⚠ **`git worktree list` is not the test.** It counts concurrent *Claude Code sessions* and is blind
 to everything else that writes to the same files: the owner editing directly, a sync client such as
 OneDrive or Dropbox, another editor, another tool. Measured on a project whose worktree count stayed
-at exactly **1** while a real concurrent edit landed mid-session. Before deleting this section, check
-for a sync client on the path and for file mtimes newer than `HEAD`, not only for worktrees.
+at exactly **1** while a real concurrent edit landed mid-session. Before deleting this section, look for **evidence of another writer**: a sync client on the path,
+edits the session cannot account for, files changing while nothing of yours runs. **Do not use
+"mtimes newer than `HEAD`" as the test** — that is true of any dirty checkout, so on a project
+carrying uncommitted work it never rules anything out.
 
 - Start each session in its own git worktree and branch. Set `worktree.baseRef` in `.claude/settings.json` to the integration branch, `<branch>`.
 - In a checkout that other sessions share, commit with a pathspec: `git commit -- <paths>`. A plain `git add` followed by `git commit` can take another session's staged work.
