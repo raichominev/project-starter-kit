@@ -4,10 +4,25 @@ Instructions and templates that give an existing project a `CLAUDE.md`, a real `
 
 The files here are **instructions, not documentation**. They are meant to be handed to Claude Code (or any coding agent) and executed against a target project.
 
+## Install
+
+This repository holds the **`raicho-kit`** marketplace, which carries the kit as a plugin:
+
+```text
+/plugin marketplace add raichominev/project-starter-kit
+/plugin install project-starter-kit@raicho-kit
+```
+
+Then say "bootstrap this project", or invoke `/project-starter-kit`, in a chat opened in the target
+project. The skill carries the order and the stop points, and the three step files travel with it.
+
+**Or clone it.** The kit is plain Markdown and needs no install. See [Run it](#run-it) below.
+
 ## The files
 
 | File | Role |
 |---|---|
+| [SKILL.md](SKILL.md) | The plugin entry point: the order, the stop points, and the rules that govern all three steps. Points at the step files rather than repeating them. |
 | [CLAUDE.template.md](CLAUDE.template.md) | The generic `CLAUDE.md`: behavioural guardrails, the rules for the plan, the ledger and handoffs, and `<...>` placeholders for project facts. Copied into the target project, never edited in place here. |
 | [PLAN.template.md](PLAN.template.md) | The plan skeleton: status header, goal, settled rulings, phases with `Verify:` lines and stop points, risks, open decisions. |
 | [LEDGER.template.tsv](LEDGER.template.tsv) | The ledger's header row. One row per measurement, run, decision, release or retraction. |
@@ -59,9 +74,11 @@ and it is not the same as catching the first one.
 
 ## Run it
 
-Paste this into a chat opened in the target project:
+With the plugin installed, say "bootstrap this project" or invoke `/project-starter-kit`. Nothing else
+is needed.
 
-Replace `<KIT>` with wherever you cloned this.
+Without it, paste this into a chat opened in the target project, and replace `<KIT>` with wherever you
+cloned this.
 
 ```text
 Bootstrap this project using <KIT>.

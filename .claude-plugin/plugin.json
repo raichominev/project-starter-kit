@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "project-starter-kit",
+  "displayName": "Project Starter Kit",
+  "version": "1.1.0",
+  "description": "Bootstrap an existing project's agent documentation: a CLAUDE.md reconciled against what the project already has, a docs/ folder built bottom-up from the source, and a plan, an append-only ledger and a numbered ruling register. Stops and asks on every genuine conflict.",
+  "author": {
+    "name": "Raicho Minev",
+    "url": "https://github.com/raichominev"
+  },
+  "homepage": "https://github.com/raichominev/project-starter-kit",
+  "repository": "https://github.com/raichominev/project-starter-kit",
+  "license": "MIT",
+  "keywords": [
+    "claude-md",
+    "documentation",
+    "bootstrap",
+    "scaffolding",
+    "project-setup",
+    "onboarding",
+    "planning",
+    "agent-skills",
+    "claude-code"
+  ]
+}
