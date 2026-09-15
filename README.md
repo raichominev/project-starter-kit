@@ -2,6 +2,8 @@
 
 Instructions and templates that give an existing project a `CLAUDE.md`, a real `docs/` folder, a plan and a ledger. The same rules keep them current as the work goes on.
 
+![Project starter kit workflow: a coding agent reconciles CLAUDE.md / AGENTS.md, documents the source, then sets up work records, with owner approval between stages. No open work means no plan. Keep docs and records current as work continues.](assets/bootstrap-process-3d-white.png)
+
 The files here are **instructions, not documentation**. They are meant to be handed to Claude Code (or any coding agent) and executed against a target project.
 
 ## Install
